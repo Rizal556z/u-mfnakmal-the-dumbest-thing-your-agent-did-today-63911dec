@@ -12,8 +12,14 @@ LINE = (
     "from the previous turn."
 )
 
+# The bounty gate rejects lines over 200 characters, so fail loudly
+# here instead of writing an entry the judge will never see.
+MAX_CHARS = 200
+
 
 def main():
+    if len(LINE) > MAX_CHARS:
+        raise ValueError(f"entry is {len(LINE)} characters, over the 200 limit")
     output_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
     os.makedirs(output_dir, exist_ok=True)
     path = os.path.join(output_dir, "entry.txt")
